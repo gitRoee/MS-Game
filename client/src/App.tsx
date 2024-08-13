@@ -1,13 +1,17 @@
-import { ThemeProvider } from '@mui/material/styles';
-import theme from './theme';
+import { Snackbar } from '@mui/material';
+import { useErrorContext } from './hooks/useErrorContext';
 import JackpotPage from './pages/jackpotPage';
 
 function App() {
+  const { isError } = useErrorContext()
 
   return (
-      <ThemeProvider theme={theme}>
-        <JackpotPage />
-      </ThemeProvider>
+    <>
+      <JackpotPage />
+      <Snackbar
+        open={isError}
+        message="ERROR" />
+    </>
   );
 }
 

@@ -6,33 +6,43 @@ import { createGameSession, rollSlots } from "../../data/jackPot";
 import { Slot } from "../../types/jackpot";
 import { v4 as uuidv4 } from 'uuid';
 import JackpotTable from "../../components/jackpotTable";
+import { useErrorContext } from "../../hooks/useErrorContext";
 
 const JackpotPage = () => {
     const [sessionId, setSessionId] = useState('');
     const [credits, setCredits] = useState(0);
     const [slots, setSlots] = useState<Slot[]>([]);
     const [isRolling, setIsRolling] = useState<boolean>(false);
+    const { onError } = useErrorContext()
 
     const onStart = async () => {
-        const gameSession = await createGameSession();
+        try {
+            const gameSession = await createGameSession();
 
-        setSessionId(gameSession.id);
-        setCredits(gameSession.credits);
+            setSessionId(gameSession.id);
+            setCredits(gameSession.credits);
+        } catch (error) {
+            onError();
+        }
     }
 
     const onRoll = async () => {
-        const results = await rollSlots(sessionId);
-        setSlots(results.rolls.map(roll => ({
-            fruit: roll,
-            cardId: uuidv4()
-        })));
+        try {
+            const results = await rollSlots(sessionId);
+            setSlots(results.rolls.map(roll => ({
+                fruit: roll,
+                cardId: uuidv4()
+            })));
 
-        setIsRolling(true);
+            setIsRolling(true);
 
-        setTimeout(() => {
-            setCredits(results.credits)
-            setIsRolling(false);
-        }, results.rolls.length * 1000);
+            setTimeout(() => {
+                setCredits(results.credits)
+                setIsRolling(false);
+            }, results.rolls.length * 1000);
+        } catch (error) {
+            onError();
+        }
     }
 
     useEffect(() => {
