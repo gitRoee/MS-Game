@@ -1,5 +1,5 @@
 import axios from "axios"
-import { GameSessionFromServer } from "../types/jackpot";
+import { RollResult, GameSessionFromServer } from "../types/jackpot";
 
 const JACKPOT_SERVER_ENDPOINT = 'http://localhost:3000/api/jackpot';
 
@@ -9,3 +9,8 @@ export const createGameSession = async (): Promise<GameSessionFromServer> => {
     return res.data;
 };
 
+export const rollSlots = async (gameSessionId: string): Promise<RollResult> => {
+    const res = await axios.put(`${JACKPOT_SERVER_ENDPOINT}/roll/${gameSessionId}`);
+
+    return res.data;
+}
