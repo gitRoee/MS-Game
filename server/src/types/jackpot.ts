@@ -4,10 +4,10 @@ export type Fruit = 'W' | 'L' | 'O' | 'C';
 
 export type GameResult = {
     credits: number;
-    rollResult: Fruit[];
+    rolls: Fruit[];
 };
 
 export type NewGameSession = {
-    id: string,
-    credits: number
+    id: string;
+    credits: number;
 };

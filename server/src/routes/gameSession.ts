@@ -7,13 +7,14 @@ const jackpotController = new JackpotController();
 
 jackpotRouter.post("/startSession", async (_req, res) => {
     const gameSessionId = await jackpotController.startSession();
-    
+
     return res.send(gameSessionId);
 });
 
 jackpotRouter.put("/roll/:sessionId", async (req, res) => {
     try {
         const sessionId = req.params.sessionId;
+
         const doesSessionExist = await jackpotController.doesSessionExist(sessionId);
 
         if (!doesSessionExist) {

@@ -10,4 +10,4 @@ export const CreditsByLetter = {
 } as const satisfies Record<Fruits[number], number>;
 
 export const rollCost = 1;
-export const creditsThreshHold = 0;
+export const creditsThreshHold = -1;

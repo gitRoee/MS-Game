@@ -22,21 +22,21 @@ export class JackpotController {
     public async gameCalculation(sessionId: string): Promise<GameResult | undefined> {
         return await db.transaction(async (tx) => {
         let credits = await this.#gameSessionService.getCreditsBySession(sessionId, tx) - rollCost;
-        
-        if (credits > creditsThreshHold) {
-            const rollResult = rollSlots(credits);
 
-            if (rollResult.every(slot => slot === rollResult[0])) {
-                credits += CreditsByLetter[rollResult[0]];
+        if (credits > creditsThreshHold) {
+            const rolls = rollSlots(credits);
+
+            if (rolls.every(slot => slot === rolls[0])) {
+                credits += CreditsByLetter[rolls[0]];
             }
             
-            await this.#gameSessionService.updateCredits(sessionId, credits);
+            await this.#gameSessionService.updateCredits(sessionId, credits, tx);
 
             return {
                 credits,
-                rollResult
+                rolls
             }
-        }})
+        }});
     }
 
     public async endSession(sessionId: string): Promise<String> {
