@@ -7,42 +7,19 @@ type props = {
 };
 
 const spin = keyframes`
-    0%  {transform:rotate(0deg);},
-    100% {transform:rotate(360deg);}
+    0% {transform:rotate(0deg)},
+    100% {transform:rotate(360deg)}
 `;
 
 const SpinningTypography = styled(Typography)(() => ({
-    animation: spin
+    animation: `${spin} 1s infinite ease`
 }));
 
 const JackpotCard = ({ rolledFruit, rollTimeInSeconds }: props) => {
     const [isSpinning, setIsSpinning] = useState(true);
-    // const timerRef = useRef<number>();
-
-    // const setTimer = () => {
-    //     timerRef.current = setTimeout(() => setIsSpinning(false), rollTimeInSeconds * 1000);
-    // };
-
-    // useEffect(() => {
-    //     if (!isSpinning) {
-    //         setIsSpinning(true);
-    //         clearTimeout(timerRef.current);
-    //         setTimer();
-    //     } else {
-    //         setTimer();
-    //     }
-
-    //     return () => {
-    //         clearTimeout(timerRef.current);
-    //     };
-    // }, [rolledFruit]);
 
     useEffect(() => {
-        const timer = setTimeout(() => setIsSpinning(false), rollTimeInSeconds * 1000);
-
-        return () => {
-            clearTimeout(timer);
-        };
+        setTimeout(() => setIsSpinning(false), rollTimeInSeconds * 1000);
     }, []);
 
     return (
