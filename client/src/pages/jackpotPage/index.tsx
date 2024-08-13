@@ -2,17 +2,21 @@ import { useEffect, useState } from "react";
 import TopBar from "../../components/topBar"
 import InfoBar from "../../components/InfoBar";
 import { Stack } from "@mui/material";
-// import { createGameSession } from "../../data/jackPot";
+import { createGameSession } from "../../data/jackPot";
 
 const JackpotPage = () => {
     const [sessionId, setSessionId] = useState('');
-    const [credits, setCredits] = useState(0); // save them on server
-    
-    useEffect(()=> {
-        // possibly needs to be in await
-        // const gameSession = createGameSession();
-        // setSessionId(gameSession.id)
-        // setCredits(gameSession.credits)
+    const [credits, setCredits] = useState(10); // save them on server
+
+    const onStart = async () => {
+        const gameSession = await createGameSession();
+
+        setSessionId(gameSession.id);
+        setCredits(gameSession.credits);
+    }
+
+    useEffect(() => {
+        onStart();
     }, []);
 
 
