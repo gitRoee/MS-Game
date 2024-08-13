@@ -1,8 +1,10 @@
-import { fruits } from "../consts/jackpot";
+import { fruits, highCreditScore, mediumCreditScore, RigChanceByCredits } from "../consts/jackpot";
 import { Fruit } from "../types/jackpot";
 
 export const rollSlots = (sessionCredits: number): Fruit[] => {
-    const chanceToRig = sessionCredits > 60 ? 60 : sessionCredits > 40 ? 40 : 0;
+    const chanceToRig = sessionCredits > highCreditScore ? RigChanceByCredits[highCreditScore] 
+        : sessionCredits > mediumCreditScore ? RigChanceByCredits[mediumCreditScore] 
+        : 0;
     let randSlots = randomizeSlots();
 
     if(randSlots.every(slot => slot === randSlots[0]) && chanceToRig > 0) {
@@ -18,8 +20,9 @@ export const rollSlots = (sessionCredits: number): Fruit[] => {
 
 const randomizeSlots = (): Fruit[] => {
     const rollResults: Fruit[] = [];
+    const slotsLen = 3;
 
-    for (let i = 0; i < 3; i++) {
+    for (let index = 0; index < slotsLen; index++) {
         const fruitIndex = Math.floor(Math.random() * fruits.length);
         rollResults.push(fruits[fruitIndex]);
     }

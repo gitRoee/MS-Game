@@ -1,5 +1,5 @@
 import { sql } from "drizzle-orm";
-import { boolean, integer, pgSchema, text, uuid } from "drizzle-orm/pg-core";
+import { boolean, integer, pgSchema, uuid } from "drizzle-orm/pg-core";
 
 const schema = pgSchema("casino");
 

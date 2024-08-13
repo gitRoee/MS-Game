@@ -25,7 +25,7 @@ jackpotRouter.put("/roll/:sessionId", async (req, res) => {
         
         return res.send(gameSessionId);
     } catch(error) {
-        res.status(404).send(error);
+        res.sendStatus(404);
     }
 });
 
@@ -42,6 +42,6 @@ jackpotRouter.put("/endSession/:sessionId", async (req, res) => {
         
         return res.send(gameSessionId);
     } catch(error) {
-        res.status(404).send(error);
+        res.sendStatus(404);
     }
 });
