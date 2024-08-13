@@ -2,7 +2,7 @@ import { db } from "../config/db";
 import { CreditsByLetter, rollCost, creditsThreshHold } from "../consts/jackpot";
 import { rollSlots } from "../helper/jackpot";
 import { GameSessionService } from "../services/gameSession";
-import { GameResult } from "../types/jackpot";
+import { GameResult, NewGameSession } from "../types/jackpot";
 
 export class JackpotController {
     #gameSessionService: GameSessionService;
@@ -15,7 +15,7 @@ export class JackpotController {
         return await this.#gameSessionService.doesSessionExist(sessionId);
     }
 
-    public async startSession() {
+    public async startSession(): Promise<NewGameSession> {
         return await this.#gameSessionService.startSession();
     }
 
@@ -30,12 +30,18 @@ export class JackpotController {
                 credits += CreditsByLetter[rollResult[0]];
             }
             
-            await this.#gameSessionService.changeCredits(sessionId, credits);
+            await this.#gameSessionService.updateCredits(sessionId, credits);
 
             return {
                 credits,
                 rollResult
             }
         }})
+    }
+
+    public async endSession(sessionId: string): Promise<String> {
+        await this.#gameSessionService.endSession(sessionId);
+        
+        return sessionId;
     }
 }

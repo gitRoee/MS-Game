@@ -16,11 +16,28 @@ jackpotRouter.put("/roll/:sessionId", async (req, res) => {
         const sessionId = req.params.sessionId;
         const doesSessionExist = await jackpotController.doesSessionExist(sessionId);
 
-        if(!doesSessionExist) {
+        if (!doesSessionExist) {
             throw Error('No such session id');
         }
 
         const gameSessionId = await jackpotController.gameCalculation(sessionId);
+        
+        return res.send(gameSessionId);
+    } catch(error) {
+        res.status(404).send(error);
+    }
+});
+
+jackpotRouter.put("/endSession/:sessionId", async (req, res) => {
+    try {
+        const sessionId = req.params.sessionId;
+        const doesSessionExist = await jackpotController.doesSessionExist(sessionId);
+
+        if (!doesSessionExist) {
+            throw Error('No such session id');
+        }
+
+        const gameSessionId = await jackpotController.endSession(sessionId);
         
         return res.send(gameSessionId);
     } catch(error) {
