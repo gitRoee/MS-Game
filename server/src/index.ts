@@ -1,13 +1,12 @@
-import dotenv from "dotenv";
+import './config/env';
 import express, { Express } from "express";
 import cors from 'cors';
 import { corsConfig } from "./config/cors";
 import { jackpotRouter } from "./routes/gameSession";
-
-dotenv.config();
+import { ENV } from "./config/env";
 
 const app: Express = express();
-const port = process.env.PORT || 3000;
+const port = ENV.port || 3000;
 
 app.use(express.json());
 app.use(cors(corsConfig));

@@ -1,10 +1,15 @@
 import { drizzle } from 'drizzle-orm/postgres-js'
 import postgres from "postgres";
+import { ENV } from './env';
 
-const connectionString = process.env.DATABASE_URL;
+const { user, password, database, host } = ENV.db;
 
-export const client = postgres(connectionString ?? "", {
-    max: 1,
+export const client = postgres({
+    user,
+    password,
+    database,
+    host,
+    max: 1
 });
 
 export const db = drizzle(client);
